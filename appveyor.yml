@@ -6,7 +6,7 @@ environment:
     VS150COMNTOOLS: "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
 install:
-  - "$(VS150COMNTOOLS)\\VsDevCmd.bat"
+  - "%VS150COMNTOOLS%\\VsDevCmd.bat"
   - git submodule update --init --recursive
   - choco install gitversion.portable -pre -y
 
