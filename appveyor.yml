@@ -11,7 +11,6 @@ before_build:
     pushd src\boolexpr32
     cmake -G "Visual Studio 15 2017"
     popd
-  - |-
     pushd src\boolexpr64
     cmake -G "Visual Studio 15 2017 Win64"
     popd
