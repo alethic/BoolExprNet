@@ -1,0 +1,3 @@
+[submodule "lib/boolexpr"]
+	path = lib/boolexpr
+	url = https://github.com/cjdrake/boolexpr.git
