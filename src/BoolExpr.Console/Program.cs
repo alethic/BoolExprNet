@@ -1,6 +1,4 @@
-﻿using static BoolExprNet.Expression;
-
-namespace BoolExprNet.Console
+﻿namespace BoolExprNet.Console
 {
 
     public static class Program
@@ -10,22 +8,12 @@ namespace BoolExprNet.Console
         {
             var ctx = new Context();
 
-            var a = ctx.GetVariable("a");
-            var b = ctx.GetVariable("b");
-            var c = ctx.GetVariable("c");
-            var d = ctx.GetVariable("d");
-            var e = ctx.GetVariable("e");
-            var f = ctx.GetVariable("f");
-            var g = ctx.GetVariable("g");
+            var a1 = ctx.GetVariable("a1");
+            var a2 = ctx.GetVariable("a2");
 
-            var f1 = Or(a, b);
-            var f2 = Or(c, d);
-            var f3 = Or(e, And(f, g));
-            var fs = And(f1, f2, f3);
+            System.Console.WriteLine(a1);
+            System.Console.WriteLine(a2);
 
-            fs = fs.ToDnf();
-
-            System.Console.WriteLine(fs);
             System.Console.ReadLine();
         }
 
