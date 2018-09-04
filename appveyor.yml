@@ -8,11 +8,13 @@ install:
 
 before_build:
   - |-
-    cd src\boolexpr32
+    pushd src\boolexpr32
     cmake -G "Visual Studio 15 2017"
+    popd
   - |-
-    cd src\boolexpr64
+    pushd src\boolexpr64
     cmake -G "Visual Studio 15 2017 Win64"
+    popd
   - ps: gitversion /l console /output buildserver
   - ps: $env:PackageVersion=$env:GitVersion_NuGetVersion
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer

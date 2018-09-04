@@ -14,7 +14,13 @@ namespace BoolExprNet.Console
             var c = ctx.GetVariable("c");
             var z = ctx.GetVariable("z");
 
-            var f = Equal(IfThenElse(Not(Or(And(a, b, Not(c)), And(a, Not(b), c), And(Not(a), b, c))), b, c), z).ToDnf().ToCnf().ToDnf();
+            var f = 
+                    Or(
+                        And(a, Not(b), Not(c)),
+                        And(Not(a), Not(b), c),
+                        And(Not(a), b, Not(c)))
+                .ToDnf().ToCnf();
+
             System.Console.WriteLine(f);
             System.Console.ReadLine();
         }
