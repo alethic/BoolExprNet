@@ -7,8 +7,8 @@ install:
   - choco install gitversion.portable -pre -y
 
 before_build:
-  - pushd src\boolexpr32; "%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -G "Visual Studio 15 2017" ; popd
-  - pushd src\boolexpr64; "%DevEnvDir%\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -G "Visual Studio 15 2017 Win64"; popd
+  - cmd: pushd src\boolexpr32; cmake -G "Visual Studio 15 2017" ; popd
+  - cmd: pushd src\boolexpr64; cmake -G "Visual Studio 15 2017 Win64"; popd
   - ps: gitversion /l console /output buildserver
   - ps: $env:PackageVersion=$env:GitVersion_NuGetVersion
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
