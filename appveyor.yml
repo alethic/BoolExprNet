@@ -3,7 +3,7 @@ configuration: Release
 platform: Any CPU
 
 install:
-  - "$(VS150COMNTOOLS)\VsDevCmd.bat"
+  - "%VS150COMNTOOLS%\VsDevCmd.bat"
   - git submodule update --init --recursive
   - choco install gitversion.portable -pre -y
 
