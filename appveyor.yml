@@ -2,6 +2,9 @@ image: Visual Studio 2017
 configuration: Release
 platform: Any CPU
 
+environment:
+    VS150COMNTOOLS: "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+
 install:
   - "$(VS150COMNTOOLS)\\VsDevCmd.bat"
   - git submodule update --init --recursive
