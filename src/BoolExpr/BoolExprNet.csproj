@@ -4,6 +4,14 @@
     <TargetFramework>net47</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="pushd ..\boolexpr32&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017&quot; .&#xD;&#xA;popd&#xD;&#xA;&#xD;&#xA;pushd ..\boolexpr64&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017 Win64&quot; .&#xD;&#xA;popd&#xD;&#xA;" />
   </Target>

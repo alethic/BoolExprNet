@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoolExpr\BoolExpr.csproj" />
+    <ProjectReference Include="..\BoolExpr\BoolExprNet.csproj" />
   </ItemGroup>
 
 </Project>
