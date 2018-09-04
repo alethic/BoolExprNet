@@ -1,16 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Jerome Haltom, Chris Drake</Authors>
+    <Company></Company>
+    <Description>.NET wrapper around the BoolExpr C++ library for symbolic Boolean algebra developed by Chris Drake of PyEDA.</Description>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageProjectUrl>https://github.com/wasabii/BoolExprNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/wasabii/BoolExprNet.git</RepositoryUrl>
+    <PackageTags>boolean dnf cnf</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+  <ItemGroup>
+    <None Include="build\net4\BoolExprNet.targets">
+      <OutputDir>build\net4</OutputDir>
+      <Pack>true</Pack>
+      <PackagePath>build\net4</PackagePath>
+    </None>
+  </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="pushd ..\boolexpr32&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017&quot; .&#xD;&#xA;popd&#xD;&#xA;&#xD;&#xA;pushd ..\boolexpr64&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017 Win64&quot; .&#xD;&#xA;popd&#xD;&#xA;" />
