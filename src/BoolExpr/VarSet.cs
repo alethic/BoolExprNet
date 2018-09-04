@@ -24,7 +24,7 @@ namespace BoolExprNet
 
         public IEnumerator<Variable> GetEnumerator()
         {
-            return new _VarSet(iter());
+            return new _VarSetIter(iter());
         }
 
         IEnumerator IEnumerable.GetEnumerator()

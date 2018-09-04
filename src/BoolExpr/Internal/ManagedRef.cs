@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BoolExprNet
+namespace BoolExprNet.Internal
 {
 
     /// <summary>
@@ -19,6 +19,9 @@ namespace BoolExprNet
         /// <param name="ptr"></param>
         protected ManagedRef(IntPtr ptr)
         {
+            if (ptr == IntPtr.Zero)
+                throw new ArgumentOutOfRangeException();
+
             this.ptr = ptr;
         }
 
@@ -33,8 +36,24 @@ namespace BoolExprNet
         /// <param name="ptr"></param>
         protected abstract void Free(IntPtr ptr);
 
+        /// <summary>
+        /// Frees the unmanaged reference.
+        /// </summary>
+        void Free()
+        {
+            if (ptr != IntPtr.Zero)
+            {
+                Free(ptr);
+                ptr = IntPtr.Zero;
+            }
+        }
+
         #region IDisposable
 
+        /// <summary>
+        /// Disposes of the managed and unmanaged resources.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
             if (!disposed)
@@ -44,16 +63,16 @@ namespace BoolExprNet
                     // TODO: dispose managed state (managed objects).
                 }
 
-                if (ptr != IntPtr.Zero)
-                {
-                    Free(ptr);
-                    ptr = IntPtr.Zero;
-                }
+                // release unmanaged reference
+                Free();
 
                 disposed = true;
             }
         }
 
+        /// <summary>
+        /// Disposes of the unmanaged references.
+        /// </summary>
         ~ManagedRef()
         {
             Dispose(false);

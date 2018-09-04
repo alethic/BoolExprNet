@@ -11,7 +11,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public Complement(IntPtr ptr) : base(ptr)
+        internal Complement(IntPtr ptr) : base(ptr)
         {
 
         }

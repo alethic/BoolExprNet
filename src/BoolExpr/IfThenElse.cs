@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public IfThenElse(IntPtr ptr) : base(ptr)
+        internal IfThenElse(IntPtr ptr) : base(ptr)
         {
 
         }

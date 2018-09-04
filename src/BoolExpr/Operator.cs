@@ -11,7 +11,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public Operator(IntPtr ptr) : base(ptr)
+        internal Operator(IntPtr ptr) : base(ptr)
         {
 
         }

@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public AndOperator(IntPtr ptr) : base(ptr)
+        internal AndOperator(IntPtr ptr) : base(ptr)
         {
 
         }

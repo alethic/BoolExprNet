@@ -13,7 +13,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _Soln(IntPtr ptr) :
+        internal _Soln(IntPtr ptr) :
             base(ptr)
         {
 

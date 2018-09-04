@@ -24,7 +24,7 @@ namespace BoolExprNet
 
         public IEnumerator<Expression> GetEnumerator()
         {
-            return new _Vec(iter());
+            return new _VecIter(iter());
         }
 
         IEnumerator IEnumerable.GetEnumerator()

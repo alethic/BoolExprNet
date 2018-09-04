@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public EqualOperator(IntPtr ptr) : base(ptr)
+        internal EqualOperator(IntPtr ptr) : base(ptr)
         {
 
         }

@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public NandOperator(IntPtr ptr) : base(ptr)
+        internal NandOperator(IntPtr ptr) : base(ptr)
         {
 
         }

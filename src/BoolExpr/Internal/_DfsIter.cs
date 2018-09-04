@@ -17,7 +17,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _DfsIter(IntPtr ptr) :
+        internal _DfsIter(IntPtr ptr) :
             base(ptr)
         {
 

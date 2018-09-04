@@ -17,7 +17,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _CofactorIter(IntPtr ptr) :
+        internal _CofactorIter(IntPtr ptr) :
             base(ptr)
         {
 

@@ -8,7 +8,7 @@ namespace BoolExprNet.Internal
     /// <summary>
     /// Provides a managed iterator over the VEC type.
     /// </summary>
-    class _Vec : ManagedRef, IEnumerator<Expression>
+    class _VecIter : ManagedRef, IEnumerator<Expression>
     {
 
         bool init = true;
@@ -18,7 +18,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _Vec(IntPtr ptr) :
+        internal _VecIter(IntPtr ptr) :
             base(ptr)
         {
 

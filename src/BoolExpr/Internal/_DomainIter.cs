@@ -17,7 +17,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _DomainIter(IntPtr ptr) :
+        internal _DomainIter(IntPtr ptr) :
             base(ptr)
         {
 

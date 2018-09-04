@@ -8,7 +8,7 @@ namespace BoolExprNet.Internal
     /// <summary>
     /// Provides a managed iterator over the POINT type.
     /// </summary>
-    class _Point : ManagedRef, IEnumerator<KeyValuePair<Expression, Expression>>
+    class _PointIter : ManagedRef, IEnumerator<KeyValuePair<Expression, Expression>>
     {
 
         Expression currentKey;
@@ -18,7 +18,7 @@ namespace BoolExprNet.Internal
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public _Point(IntPtr ptr) :
+        internal _PointIter(IntPtr ptr) :
             base(ptr)
         {
 

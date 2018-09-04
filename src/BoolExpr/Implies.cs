@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public Implies(IntPtr ptr) : base(ptr)
+        internal Implies(IntPtr ptr) : base(ptr)
         {
 
         }

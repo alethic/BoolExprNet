@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public NegativeOperator(IntPtr ptr) : base(ptr)
+        internal NegativeOperator(IntPtr ptr) : base(ptr)
         {
 
         }

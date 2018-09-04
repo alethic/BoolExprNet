@@ -1,5 +1,7 @@
 ﻿using System;
 
+using BoolExprNet.Internal;
+
 namespace BoolExprNet
 {
 

@@ -24,7 +24,7 @@ namespace BoolExprNet
 
         public IEnumerator<KeyValuePair<Expression, Expression>> GetEnumerator()
         {
-            return new _Point(iter());
+            return new _PointIter(iter());
         }
 
         IEnumerator IEnumerable.GetEnumerator()

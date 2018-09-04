@@ -10,7 +10,7 @@ namespace BoolExprNet
         /// Initializes a new instance.
         /// </summary>
         /// <param name="ptr"></param>
-        public XnorOperator(IntPtr ptr) : base(ptr)
+        internal XnorOperator(IntPtr ptr) : base(ptr)
         {
 
         }
