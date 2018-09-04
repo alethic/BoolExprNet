@@ -14,7 +14,7 @@ namespace BoolExprNet.Console
             var c = ctx.GetVariable("c");
             var z = ctx.GetVariable("z");
 
-            var f = 
+            var f =
                     Or(
                         And(a, Not(b), Not(c)),
                         And(Not(a), Not(b), c),
