@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="pushd ..\boolexpr32&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017&quot; .&#xD;&#xA;popd&#xD;&#xA;&#xD;&#xA;pushd ..\boolexpr64&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017 Win64&quot; .&#xD;&#xA;popd&#xD;&#xA;" />
+  </Target>
+
+  <ItemGroup>
+    <LibProjectReference Include="../boolexpr32/boolexpr32.vcxproj">
+      <Name>boolexpr32</Name>
+      <Platform>Win32</Platform>
+      <Configuration>$(Configuration)</Configuration>
+      <OutputDir>runtimes/win7-x86/native</OutputDir>
+    </LibProjectReference>
+    <LibProjectReference Include="../boolexpr64/boolexpr64.vcxproj">
+      <Name>boolexpr64</Name>
+      <Platform>x64</Platform>
+      <Configuration>$(Configuration)</Configuration>
+      <OutputDir>runtimes/win7-x64/native</OutputDir>
+    </LibProjectReference>
+  </ItemGroup>
+
+  <Target Name="GetLibTargets" BeforeTargets="GetCopyToOutputDirectoryItems" Condition="'$(DesignTimeBuild)' != 'true'">
+    <MSBuild Projects="@(LibProjectReference)" Targets="GetTargetPath" Properties="Platform=%(LibProjectReference.Platform);Configuration=%(LibProjectReference.Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="LibTargets" />
+    </MSBuild>
+    <ItemGroup>
+      <ContentWithTargetPath Include="@(LibTargets)">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
+      </ContentWithTargetPath>
+      <ContentWithTargetPath Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        <TargetPath>%(OutputDir)\%(Filename).pdb</TargetPath>
+      </ContentWithTargetPath>
+    </ItemGroup>
+  </Target>
+
+  <Target Name="BuildLib" BeforeTargets="Compile" DependsOnTargets="GetLibTargets" Inputs="@(LibProjectReference)" Outputs="%(Identity).tmp" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Message Text="BuildLib: %(LibProjectReference.Name)" Importance="high" />
+    <MSBuild Projects="@(LibProjectReference)" Targets="Build" Properties="Platform=%(LibProjectReference.Platform);Configuration=%(LibProjectReference.Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="LibOutputs" />
+    </MSBuild>
+  </Target>
+
+  <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibTargets">
+    <ItemGroup>
+      <_PackageFiles Include="@(LibTargets)">
+        <BuildAction>None</BuildAction>
+        <Pack>true</Pack>
+        <PackagePath>%(OutputDir)\%(Filename)%(Extension)</PackagePath>
+      </_PackageFiles>
+      <_PackageFiles Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')">
+        <BuildAction>None</BuildAction>
+        <Pack>true</Pack>
+        <PackagePath>%(OutputDir)\%(Filename).pdb</PackagePath>
+      </_PackageFiles>
+    </ItemGroup>
+  </Target>
+
+</Project>
