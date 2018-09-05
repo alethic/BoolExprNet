@@ -1,0 +1,37 @@
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+
+environment:
+    VS150COMNTOOLS: "%ProgramFiles(x86)%\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+
+install:
+  - '"%VS150COMNTOOLS%\\VsDevCmd.bat"'
+  - git submodule update --init --recursive
+  - choco install gitversion.portable -pre -y
+
+before_build:
+  - |-
+    cd src\boolexpr32
+    cmake -G "Visual Studio 15 2017"
+    cd ..\..
+    cd src\boolexpr64
+    cmake -G "Visual Studio 15 2017 Win64"
+    cd ..\..
+  - ps: gitversion /l console /output buildserver
+  - ps: $env:PackageVersion=$env:GitVersion_NuGetVersion
+  - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
+  - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
+  - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
+  - ps: $env:PackageOutputPath="$env:APPVEYOR_BUILD_FOLDER\pkg"
+  - nuget restore src/BoolExprNet.sln
+  - dotnet restore src/BoolExprNet.sln
+
+build:
+  project: src/BoolExprNet.sln
+  verbosity: quiet
+  parallel: true
+
+artifacts:
+  - path: pkg/*.nupkg
+    name: BoolExprNet

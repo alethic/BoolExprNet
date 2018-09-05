@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(PLATFORM_SUFFIX 64)
+set(PLATFORM_SUFFIX 32)
 
 project(boolexpr${PLATFORM_SUFFIX})
 
@@ -14,6 +14,8 @@ file(GLOB_RECURSE boost_srcs "${BOOLEXPR_DIR}/third_party/boost-${BOOST_VERSION}
 
 add_library(boolexpr${PLATFORM_SUFFIX} SHARED ${boolexpr_srcs} ${glucosamine_srcs})
 set_property(TARGET boolexpr${PLATFORM_SUFFIX} PROPERTY OUTPUT_NAME boolexpr)
+set_property(TARGET boolexpr${PLATFORM_SUFFIX} PROPERTY CMAKE_VERBOSE_MAKEFILE OFF)
+set_property(TARGET boolexpr${PLATFORM_SUFFIX} PROPERTY VS_GLOBAL_WarningLevel "Level1")
 
 target_compile_options(boolexpr${PLATFORM_SUFFIX} PUBLIC /std:c++11 /Wall)
 target_include_directories(boolexpr${PLATFORM_SUFFIX} PUBLIC ${BOOLEXPR_DIR}/include)
