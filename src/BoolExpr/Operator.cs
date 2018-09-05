@@ -32,7 +32,7 @@ namespace BoolExprNet
         /// <summary>
         /// Return an enumeration of the operator's arguments.
         /// </summary>
-        public Vec Args => new Vec(() => Native.boolexpr_Operator_args(Ptr));
+        public IReadOnlyList<Expression> Args => new Vec(Native.boolexpr_Operator_args(Ptr));
 
         /// <summary>
         /// Return <c>true</c> if the operator is a clause.

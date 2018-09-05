@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+
 using BoolExprNet.Internal;
 
 namespace BoolExprNet
 {
 
+    /// <summary>
+    /// Represents a boolean expression.
+    /// </summary>
     public abstract class Expression : ManagedRef
     {
 
-        static readonly Dictionary<Kind, Expression> KIND2CONST = new Dictionary<Kind, Expression>()
+        static readonly Dictionary<Kind, Constant> KIND2CONST = new Dictionary<Kind, Constant>()
         {
             [Kind.Zero] = Zero,
             [Kind.One] = One,
@@ -42,17 +46,29 @@ namespace BoolExprNet
 
         #region Known
 
+        /// <summary>
+        /// Describes the constant zero value.
+        /// </summary>
         public static ZeroLiteral Zero = new ZeroLiteral(Native.boolexpr_zero());
 
+        /// <summary>
+        /// Describes the constant one value.
+        /// </summary>
         public static OneLiteral One = new OneLiteral(Native.boolexpr_one());
 
+        /// <summary>
+        /// Describes the constant logical value.
+        /// </summary>
         public static Logical Logical = new Logical(Native.boolexpr_logical());
 
+        /// <summary>
+        /// Describes the constant illogical value.
+        /// </summary>
         public static Illogical Illogical = new Illogical(Native.boolexpr_illogical());
 
         #endregion
 
-        #region Operators
+        #region Operator Methods
 
         /// <summary>
         /// Invokes the given function accepting a single expression variable. Wraps the result in the specified
@@ -115,7 +131,7 @@ namespace BoolExprNet
 
         public static Expression Not(Expression args)
         {
-            if (args == null)
+            if (ReferenceEquals(args, null))
                 throw new ArgumentNullException(nameof(args));
 
             return InvokeExpr<Expression>(args, Native.boolexpr_not);
@@ -185,6 +201,22 @@ namespace BoolExprNet
             return InvokeExpr<Expression>(args, Native.boolexpr_and);
         }
 
+        public static Expression ExclusiveOr(IEnumerable<Expression> args)
+        {
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+
+            return ExclusiveOr(args.ToArray());
+        }
+
+        public static Expression ExclusiveOr(params Expression[] args)
+        {
+            if (args == null)
+                throw new ArgumentNullException(nameof(args));
+
+            return InvokeExpr<Expression>(args, Native.boolexpr_xor);
+        }
+
         public static Expression ExclusiveNotOr(IEnumerable<Expression> args)
         {
             if (args == null)
@@ -237,9 +269,9 @@ namespace BoolExprNet
 
         public static Expression NotImplies(Expression p, Expression q)
         {
-            if (p == null)
+            if (ReferenceEquals(p, null))
                 throw new ArgumentNullException(nameof(p));
-            if (q == null)
+            if (ReferenceEquals(q, null))
                 throw new ArgumentNullException(nameof(q));
 
             return InvokeExpr<Expression>(p, q, Native.boolexpr_nimpl);
@@ -247,9 +279,9 @@ namespace BoolExprNet
 
         public static Expression Implies(Expression p, Expression q)
         {
-            if (p == null)
+            if (ReferenceEquals(p, null))
                 throw new ArgumentNullException(nameof(p));
-            if (q == null)
+            if (ReferenceEquals(q, null))
                 throw new ArgumentNullException(nameof(q));
 
             return InvokeExpr<Expression>(p, q, Native.boolexpr_impl);
@@ -257,11 +289,11 @@ namespace BoolExprNet
 
         public static Expression NotIfThenElse(Expression s, Expression d1, Expression d0)
         {
-            if (s == null)
+            if (ReferenceEquals(s, null))
                 throw new ArgumentNullException(nameof(s));
-            if (d1 == null)
+            if (ReferenceEquals(d1, null))
                 throw new ArgumentNullException(nameof(d1));
-            if (d0 == null)
+            if (ReferenceEquals(d0, null))
                 throw new ArgumentNullException(nameof(d0));
 
             return InvokeExpr<Expression>(s, d1, d0, Native.boolexpr_nite);
@@ -269,17 +301,88 @@ namespace BoolExprNet
 
         public static Expression IfThenElse(Expression s, Expression d1, Expression d0)
         {
-            if (s == null)
+            if (ReferenceEquals(s, null))
                 throw new ArgumentNullException(nameof(s));
-            if (d1 == null)
+            if (ReferenceEquals(d1, null))
                 throw new ArgumentNullException(nameof(d1));
-            if (d0 == null)
+            if (ReferenceEquals(d0, null))
                 throw new ArgumentNullException(nameof(d0));
 
             return InvokeExpr<Expression>(s, d1, d0, Native.boolexpr_ite);
         }
 
         #endregion
+
+        #region Operator Overloads
+
+        /// <summary>
+        /// Applies the logical AND operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Expression operator &(Expression a, Expression b)
+        {
+            return And(a, b);
+        }
+
+        /// <summary>
+        /// Applies the logical OR operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Expression operator |(Expression a, Expression b)
+        {
+            return Or(a, b);
+        }
+
+        /// <summary>
+        /// Applies the logical NOT operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static Expression operator !(Expression a)
+        {
+            return Not(a);
+        }
+
+        /// <summary>
+        /// Applies the logical XOR operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Expression operator ^(Expression a, Expression b)
+        {
+            return ExclusiveOr(a, b);
+        }
+
+        /// <summary>
+        /// Applies the logical EQ operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Expression operator ==(Expression a, Expression b)
+        {
+            return Equal(a, b);
+        }
+
+        /// <summary>
+        /// Applies the logical NEQ operator.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Expression operator !=(Expression a, Expression b)
+        {
+            return NotEqual(a, b);
+        }
+
+        #endregion
+
+        #region Tracking
 
         /// <summary>
         /// Creates a new <see cref="Expression"/> from the given pointer.
@@ -291,22 +394,37 @@ namespace BoolExprNet
         {
             var kind = (Kind)Native.boolexpr_BoolExpr_kind(cbx);
 
-            // expression kind is a constant, return cached instance
+            // expression kind is a constant, create instance
             if (KIND2CONST.ContainsKey(kind))
             {
                 Native.boolexpr_BoolExpr_del(cbx);
-                return (T)KIND2CONST[kind];
+                return (T)(Expression)KIND2CONST[kind];
             }
 
-            // expression kind is a literal, return cached instance
+            // expression kind is a literal, create instance
             if (KIND2LIT.ContainsKey(kind))
             {
-                // try to look up literal within context somehow
-                // can't do this until we can look up the context
-                return (T)(Expression)KIND2LIT[kind](cbx);
+                var ctx = Context.GetContext(Native.boolexpr_Literal_ctx(cbx));
+                if (ctx is null)
+                    throw new InvalidOperationException();
+
+                // get or create literal
+                var lit = (T)(Expression)ctx.GetOrCreateLiteral(Native.boolexpr_Literal_id(cbx), () => KIND2LIT[kind](cbx));
+                if (lit is null)
+                    throw new InvalidOperationException();
+
+                // existing literal returned, free pointer to new
+                if (lit.Ptr != cbx)
+                    Native.boolexpr_BoolExpr_del(cbx);
+
+                return lit;
             }
 
-            return (T)(Expression)KIND2OP[kind](cbx);
+            // expression kind is an operator, create new instance
+            if (KIND2OP.ContainsKey(kind))
+                return (T)(Expression)KIND2OP[kind](cbx);
+
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -322,6 +440,8 @@ namespace BoolExprNet
             fixed (IntPtr* p = a)
                 return with(a.Length, (IntPtr)p);
         }
+
+        #endregion
 
         /// <summary>
         /// Initializes a new instance from the specified AST.
@@ -377,11 +497,24 @@ namespace BoolExprNet
             return FromPtr<Expression>(Native.boolexpr_BoolExpr_to_posop(Ptr));
         }
 
-        public Expression Tseytin(Context ctx = null, string auxvarname = "a")
+        /// <summary>
+        /// Return the Tseytin transformation.
+        /// </summary>
+        /// <param name="ctx">The 'ctx' parameter is a <see cref="Context "/> object that will be used tostore
+        /// auxiliary variables.</param>
+        /// <param name="auxvarname">The 'auxvarname' parameter is the prefix of auxiliary variable names. The suffix
+        /// will be in the form '_0', '_1', etc.</param>
+        /// <returns></returns>
+        public Expression Tseytin(Context ctx, string auxvarname = "a")
         {
-            throw new NotImplementedException();
+            return FromPtr<Expression>(Native.boolexpr_BoolExpr_tseytin(Ptr, ctx.Ptr, auxvarname));
         }
 
+        /// <summary>
+        /// Substitute a subset of support variables with other Boolean expressions.
+        /// </summary>
+        /// <param name="var2bx"></param>
+        /// <returns></returns>
         public Expression Compose(IEnumerable<KeyValuePair<Variable, Expression>> var2bx)
         {
             throw new NotImplementedException();
@@ -392,9 +525,29 @@ namespace BoolExprNet
             throw new NotImplementedException();
         }
 
-        public (bool, Point) Satisify()
+        /// <summary>
+        /// Returns a satisying input point if the expression is satisfiable. If the expression is not satisfiable,
+        /// the point will be <c>null</c>.
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyDictionary<Variable, Constant> Satisify()
         {
-            return new _Soln(Native.boolexpr_BoolExpr_sat(Ptr)).Tuple;
+            // attempt to satisfy
+            var sats = Native.boolexpr_BoolExpr_sat(Ptr);
+            if (sats == IntPtr.Zero)
+                throw new InvalidOperationException();
+
+            // acquire solution information
+            var eval = Native.boolexpr_Soln_first(sats);
+            var soln = Native.boolexpr_Soln_second(sats);
+            if (soln == IntPtr.Zero)
+                throw new InvalidOperationException();
+
+            // release solution
+            Native.boolexpr_Soln_del(sats);
+
+            // return solution
+            return eval ? new Point(soln) : null;
         }
 
         public Expression ToCnf()
@@ -417,13 +570,25 @@ namespace BoolExprNet
             return Native.boolexpr_BoolExpr_equiv(Ptr, other.Ptr);
         }
 
-        public VarSet Support()
+        /// <summary>
+        /// Returns the support set of the <see cref="Expression"/>.
+        /// </summary>
+        /// <returns></returns>
+        public IReadOnlyList<Variable> Support()
         {
-            return new VarSet(() => Native.boolexpr_BoolExpr_support(Ptr));
+            return new VarSet(Native.boolexpr_BoolExpr_support(Ptr));
         }
 
+        /// <summary>
+        /// Return the degree of a function.
+        /// </summary>
         public uint Degree => Native.boolexpr_BoolExpr_degree(Ptr);
 
+        /// <summary>
+        /// Return the Shannon expansion with respect to a sequence of variables.
+        /// </summary>
+        /// <param name="xs"></param>
+        /// <returns></returns>
         public unsafe Expression Expand(params Variable[] xs)
         {
             fixed (IntPtr* c_vars = xs.Select(i => i.Ptr).ToArray())
@@ -445,26 +610,19 @@ namespace BoolExprNet
             throw new NotImplementedException();
         }
 
-        public DfsIter IterateDfs()
+        public void Dfs()
         {
-            return new DfsIter(() => Native.boolexpr_DfsIter_new(Ptr));
+            throw new NotImplementedException();
         }
 
-        public DomainIter IterateDomain()
+        public void Domain()
         {
-            return new DomainIter(() => Native.boolexpr_DomainIter_new(Ptr));
+            throw new NotImplementedException();
         }
 
-        public CofactorIter IterateCofactor(params Variable[] xs)
+        public void Cofactor(params Variable[] xs)
         {
-            return new CofactorIter(() =>
-            {
-                unsafe
-                {
-                    fixed (IntPtr* c_vars = xs.Select(i => i.Ptr).ToArray())
-                        return Native.boolexpr_CofactorIter_new(Ptr, xs.Length, (IntPtr)c_vars);
-                }
-            });
+            throw new NotImplementedException();
         }
 
         public virtual IEnumerable<object> ToAst()
@@ -505,6 +663,11 @@ namespace BoolExprNet
         public bool Equals(Expression other)
         {
             return Equiv(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Ptr.GetHashCode();
         }
 
     }

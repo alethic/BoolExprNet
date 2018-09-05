@@ -2,35 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using BoolExprNet.Internal;
-
 namespace BoolExprNet
 {
 
-    public class Vec :
-        IEnumerable<Expression>
+    /// <summary>
+    /// VEC instance.
+    /// </summary>
+    struct Vec : IReadOnlyList<Expression>
     {
 
-        readonly Func<IntPtr> iter;
+        readonly List<Expression> items;
 
         /// <summary>
         /// Initializes a new instnace.
         /// </summary>
         /// <param name="iter"></param>
-        internal Vec(Func<IntPtr> iter)
+        public Vec(IntPtr iter)
         {
-            this.iter = iter ?? throw new ArgumentNullException(nameof(iter));
+            items = new List<Expression>();
+
+            // begin iteration
+            Native.boolexpr_Vec_iter(iter);
+
+            while (true)
+            {
+                var expr = Native.boolexpr_Vec_val(iter);
+                if (expr == IntPtr.Zero)
+                    break;
+
+                // add current and move next
+                items.Add(Expression.FromPtr<Expression>(expr));
+                Native.boolexpr_Vec_next(iter);
+            }
+
+            Native.boolexpr_Vec_del(iter);
         }
 
-        public IEnumerator<Expression> GetEnumerator()
-        {
-            return new _VecIter(iter());
-        }
+        public Expression this[int index] => items[index];
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public int Count => items.Count;
+
+        public IEnumerator<Expression> GetEnumerator() => items.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     }
 

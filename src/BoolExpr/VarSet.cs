@@ -2,35 +2,49 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using BoolExprNet.Internal;
-
 namespace BoolExprNet
 {
 
-    public class VarSet :
-        IEnumerable<Variable>
+    /// <summary>
+    /// VARSET instance.
+    /// </summary>
+    struct VarSet : IReadOnlyList<Variable>
     {
 
-        readonly Func<IntPtr> iter;
+        readonly List<Variable> items;
 
         /// <summary>
         /// Initializes a new instnace.
         /// </summary>
         /// <param name="iter"></param>
-        internal VarSet(Func<IntPtr> iter)
+        public VarSet(IntPtr iter)
         {
-            this.iter = iter ?? throw new ArgumentNullException(nameof(iter));
+            items = new List<Variable>();
+
+            // begin iteration
+            Native.boolexpr_VarSet_iter(iter);
+
+            while (true)
+            {
+                var expr = Native.boolexpr_VarSet_val(iter);
+                if (expr == null)
+                    break;
+
+                // add current and move next
+                items.Add(Expression.FromPtr<Variable>(expr));
+                Native.boolexpr_VarSet_next(iter);
+            }
+
+            Native.boolexpr_VarSet_del(iter);
         }
 
-        public IEnumerator<Variable> GetEnumerator()
-        {
-            return new _VarSetIter(iter());
-        }
+        public Variable this[int index] => items[index];
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public int Count => items.Count;
+
+        public IEnumerator<Variable> GetEnumerator() => items.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     }
 
