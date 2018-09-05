@@ -30,6 +30,7 @@ before_build:
 build:
   verbosity: minimal
   project: src/BoolExprNet.sln
+  parallel: true
 
 artifacts:
   - path: pkg/*.nupkg
