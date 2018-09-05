@@ -28,8 +28,8 @@ before_build:
   - dotnet restore src/BoolExprNet.sln
 
 build:
-  verbosity: quiet
   project: src/BoolExprNet.sln
+  verbosity: quiet
   parallel: true
 
 artifacts:
