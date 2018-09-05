@@ -28,7 +28,7 @@ before_build:
   - dotnet restore src/BoolExprNet.sln
 
 build:
-  verbosity: minimal
+  verbosity: quiet
   project: src/BoolExprNet.sln
   parallel: true
 
