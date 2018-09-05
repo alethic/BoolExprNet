@@ -69,7 +69,7 @@
         <Pack>true</Pack>
         <PackagePath>%(OutputDir)\%(Filename)%(Extension)</PackagePath>
       </_PackageFiles>
-      <_PackageFiles Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')">
+      <_PackageFiles Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')" Condition="'$(Configuration)' == 'Debug'">
         <BuildAction>None</BuildAction>
         <Pack>true</Pack>
         <PackagePath>%(OutputDir)\%(Filename).pdb</PackagePath>
