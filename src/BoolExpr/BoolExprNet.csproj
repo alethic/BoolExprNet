@@ -48,7 +48,7 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
       </ContentWithTargetPath>
-      <ContentWithTargetPath Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')" Condition="Exists('%(Rootdir)%(Directory)%(Filename).pdb')">
+      <ContentWithTargetPath Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')" Condition="'$(Configuration)' == 'Debug'">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         <TargetPath>%(OutputDir)\%(Filename).pdb</TargetPath>
       </ContentWithTargetPath>
