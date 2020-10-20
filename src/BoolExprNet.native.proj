@@ -13,6 +13,6 @@
     </ItemGroup>
 
     <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(Identity)\CMakeLists.txt')" Outputs="%(LibProjectReference.Identity)\%(LibProjectReference.Name).vcxproj">
-        <Exec WorkingDirectory="@(LibProjectReference)" Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform) ." />
+        <Exec WorkingDirectory="@(LibProjectReference)" Command="cmake.exe -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform) ." />
     </Target>
 </Project>
