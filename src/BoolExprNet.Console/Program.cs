@@ -2,9 +2,10 @@
 
 namespace BoolExprNet.Console
 {
-    class Program
+
+    public static class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var ctx = new Context();
             var a = ctx.GetVariable("a");
@@ -16,5 +17,7 @@ namespace BoolExprNet.Console
             System.Console.WriteLine(f);
             System.Console.ReadLine();
         }
+
     }
+
 }
