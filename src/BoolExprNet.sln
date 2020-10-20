@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{267A9447-3A09-455B-85A0-0DBAAA8246C4}"
 	ProjectSection(SolutionItems) = preProject
 		..\appveyor.yml = ..\appveyor.yml
+		BoolExprNet.native.proj = BoolExprNet.native.proj
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoolExprNet", "BoolExprNet\BoolExprNet.csproj", "{DAD5F83F-0A5D-4AC6-AB54-C74C6878645A}"
