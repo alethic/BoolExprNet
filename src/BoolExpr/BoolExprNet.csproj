@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFrameworks>netcoreapp2.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -12,8 +12,12 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="pushd ..\boolexpr32&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017&quot; .&#xD;&#xA;popd&#xD;&#xA;&#xD;&#xA;pushd ..\boolexpr64&#xD;&#xA;&quot;$(DevEnvDir)\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 15 2017 Win64&quot; .&#xD;&#xA;popd&#xD;&#xA;" />
+  <Target Name="CMakeNativeWin32" BeforeTargets="Build" Condition="!Exists('$(MSBuildThisFileDirectory)..\boolexpr32\boolexpr32.sln')">
+    <Exec WorkingDirectory="$(MSBuildThisFileDirectory)..\boolexpr32" Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 16 2019&quot; -A Win32 ." />
+  </Target>
+
+  <Target Name="CMakeNativeWin64" BeforeTargets="Build" Condition="!Exists('$(MSBuildThisFileDirectory)..\boolexpr64\boolexpr64.sln')">
+    <Exec WorkingDirectory="$(MSBuildThisFileDirectory)..\boolexpr64" Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 16 2019&quot; -A x64 ." />
   </Target>
 
   <ItemGroup>
