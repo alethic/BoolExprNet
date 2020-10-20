@@ -6,8 +6,7 @@ namespace BoolExprNet.Internal
     /// <summary>
     /// Base class for instances that hold onto an unmanaged reference.
     /// </summary>
-    public abstract class ManagedRef :
-        IDisposable
+    public abstract class ManagedRef : IDisposable
     {
 
         IntPtr ptr;
