@@ -13,8 +13,8 @@ before_build:
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
   - ps: $env:PackageOutputPath="$env:APPVEYOR_BUILD_FOLDER\pkg"
-  - cd src\boolexpr32; cmake.exe -G "Visual Studio 16 2019" -A Win32 .
-  - cd src\boolexpr64; cmake.exe -G "Visual Studio 16 2019" -A x64 .
+  - cd src\boolexpr32 && cmake -G "Visual Studio 16 2019" -A Win32 .
+  - cd src\boolexpr64 && cmake -G "Visual Studio 16 2019" -A x64 .
   - msbuild src\BoolExprNet.sln /t:Restore
   
 build:
