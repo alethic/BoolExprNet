@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using BoolExprNet.Internal;
+
 namespace BoolExprNet
 {
 

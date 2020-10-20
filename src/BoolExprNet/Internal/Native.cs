@@ -1,70 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 
-namespace BoolExprNet
+namespace BoolExprNet.Internal
 {
 
+    /// <summary>
+    /// Provides the native method calls.
+    /// </summary>
     static class Native
     {
 
-        const string LIB_NAME = "boolexpr.dll";
+        public const string LIB_NAME = "boolexpr";
 
         /// <summary>
-        /// Initializes the static type.
+        /// Initializes the static instance.
         /// </summary>
         static Native()
         {
-            LoadLibLibrary();
+            NativeWindows.Init();
         }
-
-        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-        static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-        /// <summary>
-        /// Attempts to load the native library from various paths.
-        /// </summary>
-        /// <returns></returns>
-        static IntPtr LoadLibLibrary()
-        {
-            foreach (var path in GetLibPaths())
-                if (File.Exists(path))
-                    if (LoadLibrary(path) is IntPtr ptr && ptr != IntPtr.Zero)
-                        return ptr;
-
-            return IntPtr.Zero;
-        }
-
-        /// <summary>
-        /// Gets some library paths the assembly might be located in.
-        /// </summary>
-        /// <returns></returns>
-        static IEnumerable<string> GetLibPaths()
-        {
-            var self = Directory.GetParent(typeof(Native).Assembly.Location)?.FullName;
-            if (self == null)
-                yield break;
-
-            switch (Marshal.SizeOf<IntPtr>())
-            {
-                case 4:
-                    yield return Path.Combine(self, $@"runtimes\win7-x86\native\{LIB_NAME}");
-                    yield return Path.Combine(self, $@"runtimes\win-x86\native\{LIB_NAME}");
-                    yield return Path.Combine(self, $@"x86\{LIB_NAME}");
-                    break;
-                case 8:
-                    yield return Path.Combine(self, $@"runtimes\win7-x64\native\{LIB_NAME}");
-                    yield return Path.Combine(self, $@"runtimes\win-x64\native\{LIB_NAME}");
-                    yield return Path.Combine(self, $@"x64\{LIB_NAME}");
-                    break;
-                default:
-                    throw new NotSupportedException("Unknown OS architecture.");
-            }
-        }
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern IntPtr LoadLibrary(string dllToLoad);
 
         #region Context
 
@@ -293,7 +247,7 @@ namespace BoolExprNet
         public static extern bool boolexpr_Operator_simple(IntPtr c_bx);
 
         [DllImport(LIB_NAME, CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr boolexpr_Operator_args(IntPtr c_bx);    
+        public static extern IntPtr boolexpr_Operator_args(IntPtr c_bx);
 
         [DllImport(LIB_NAME, CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool boolexpr_Operator_is_clause(IntPtr c_bx);
