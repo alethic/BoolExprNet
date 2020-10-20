@@ -24,7 +24,7 @@
       <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     </ItemGroup>
     
-    <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(Identity)\CMakeLists.txt')" Outputs="%(LibProjectReference.Identity)\%(LibProjectReference.Name).vcxproj">
+    <Target Name="GenLibProject" BeforeTargets="Restore;Build" Inputs="@(LibProjectReference->'%(Identity)\CMakeLists.txt')" Outputs="%(LibProjectReference.Identity)\%(LibProjectReference.Name).vcxproj">
         <Exec WorkingDirectory="@(LibProjectReference)" Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform) ." />
     </Target>
 
@@ -44,7 +44,7 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="BuildLib" BeforeTargets="Compile" DependsOnTargets="GetLibContent" Inputs="@(LibProjectReference->'%(Identity)\%(Name).vcxproj" Outputs="@(LibProjectReference->'%(Identity)\%(Configuration)\%(Name).dll')" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Target Name="BuildLib" BeforeTargets="Compile" DependsOnTargets="GetLibContent" Inputs="@(LibProjectReference-&gt;'%(Identity)\%(Name).vcxproj" Outputs="@(LibProjectReference->'%(Identity)\%(Configuration)\%(Name).dll')" Condition="'$(DesignTimeBuild)' != 'true'">
         <Message Text="BuildLib: %(LibProjectReference.Name)" Importance="high" />
         <MSBuild Projects="@(LibProjectReference->'%(Identity)\%(Name).vcxproj')" Targets="Build" Properties="Platform=%(LibProjectReference.Platform);Configuration=%(LibProjectReference.Configuration)">
             <Output TaskParameter="TargetOutputs" ItemName="LibOutputs" />
