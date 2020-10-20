@@ -3,6 +3,7 @@ configuration: Release
 platform: "Any CPU"
 
 install:
+  - git submodule update --init --recursive
   - choco install gitversion.portable -y
 
 before_build:
