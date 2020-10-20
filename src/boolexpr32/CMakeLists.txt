@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(PLATFORM_SUFFIX 64)
+set(PLATFORM_SUFFIX 32)
 
 project(boolexpr${PLATFORM_SUFFIX})
 
