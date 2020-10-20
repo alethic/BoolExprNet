@@ -1,8 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>netcoreapp2.0;net46</TargetFrameworks>
+        <TargetFrameworks>netcoreapp3.0;netcoreapp2.0;net46</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>Alethic Solutions</Authors>
+        <Company>Alethic Solutions</Company>
+        <Description>BoolExprNet is a .NET wrapper around the Boolexpr open source C++ library for symbolic Boolean algebra.</Description>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/wasabii/BoolExprNet/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/wasabii/BoolExprNet.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,18 +18,30 @@
             <Name>boolexpr32</Name>
             <Platform>Win32</Platform>
             <Configuration>$(Configuration)</Configuration>
-            <OutputDir>runtimes/win7-x86/native</OutputDir>
+            <OutputDir>runtimes/win-x86/native</OutputDir>
         </LibProjectReference>
         <LibProjectReference Include="..\boolexpr64">
             <Name>boolexpr64</Name>
             <Platform>x64</Platform>
             <Configuration>$(Configuration)</Configuration>
-            <OutputDir>runtimes/win7-x64/native</OutputDir>
+            <OutputDir>runtimes/win-x64/native</OutputDir>
         </LibProjectReference>
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+      <PackageReference Include="System.Runtime.Loader">
+        <Version>4.3.0</Version>
+      </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0'">
+      <PackageReference Include="System.Runtime.Loader">
+        <Version>4.3.0</Version>
+      </PackageReference>
     </ItemGroup>
     
     <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(Identity)\CMakeLists.txt')" Outputs="%(LibProjectReference.Identity)\%(LibProjectReference.Name).vcxproj">
@@ -36,6 +56,7 @@
             <ContentWithTargetPath Include="@(LibTargets)">
                 <CopyToOutputDirectory>Always</CopyToOutputDirectory>
                 <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
+                <AssetGroup>native</AssetGroup>
             </ContentWithTargetPath>
             <ContentWithTargetPath Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')">
                 <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -51,7 +72,7 @@
         </MSBuild>
     </Target>
 
-    <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibTargets">
+    <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibContent">
         <ItemGroup>
             <_PackageFiles Include="@(LibTargets)">
                 <BuildAction>None</BuildAction>

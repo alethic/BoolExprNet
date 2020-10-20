@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace BoolExprNet.Internal
@@ -17,16 +18,7 @@ namespace BoolExprNet.Internal
         /// </summary>
         static Native()
         {
-#if NETCOREAPP2_0
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                NativeWindows.Init();
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                NativeLinux.Init();
-            else
-                throw new NotImplementedException("Unsupported operating system.");
-#else
-            NativeWindows.Init();
-#endif
+            NativeLoader.Load(LIB_NAME);
         }
 
         #region Context

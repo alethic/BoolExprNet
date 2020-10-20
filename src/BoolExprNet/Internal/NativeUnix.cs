@@ -7,16 +7,17 @@ namespace BoolExprNet.Internal
     /// <summary>
     /// Provides native library management for Windows.
     /// </summary>
-    static class NativeWindows
+    static class NativeUnix
     {
 
         /// <summary>
-        /// Invokes the LoadLibrary function.
+        /// Invokes the dlopen function.
         /// </summary>
         /// <param name="dllToLoad"></param>
+        /// <param name="flags"></param>
         /// <returns></returns>
-        [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr LoadLibrary(string dllToLoad);
+        [DllImport("dl", SetLastError = true)]
+        public static extern IntPtr dlopen(string dllToLoad, int flags);
 
     }
 
