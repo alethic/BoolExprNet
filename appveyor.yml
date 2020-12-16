@@ -18,9 +18,9 @@ before_build:
   - msbuild src\BoolExprNet.sln /t:Restore
   
 build:
-  verbosity: minimal
   project: src\BoolExprNet.sln
   parallel: true
+  verbosity: minimal
 
 artifacts:
   - path: pkg\*.nupkg
