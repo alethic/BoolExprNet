@@ -15,7 +15,7 @@ file(GLOB_RECURSE boost_srcs "${BOOLEXPR_DIR}/third_party/boost-${BOOST_VERSION}
 add_library(boolexpr${PLATFORM_SUFFIX} SHARED ${boolexpr_srcs} ${glucosamine_srcs})
 set_property(TARGET boolexpr${PLATFORM_SUFFIX} PROPERTY OUTPUT_NAME boolexpr)
 
-target_compile_options(boolexpr${PLATFORM_SUFFIX} PUBLIC /std:c++11)
+target_compile_options(boolexpr${PLATFORM_SUFFIX} PUBLIC /std:c++14)
 target_include_directories(boolexpr${PLATFORM_SUFFIX} PUBLIC ${BOOLEXPR_DIR}/include)
 target_include_directories(boolexpr${PLATFORM_SUFFIX} PUBLIC ${BOOLEXPR_DIR}/third_party/boost-1.54.0)
 target_include_directories(boolexpr${PLATFORM_SUFFIX} PUBLIC ${BOOLEXPR_DIR}/third_party/glucosamine/src)
