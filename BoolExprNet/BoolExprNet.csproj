@@ -4,13 +4,7 @@
         <TargetFrameworks>net5.0;netcoreapp3.0;netcoreapp2.0;net46</TargetFrameworks>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Authors>Alethic Solutions</Authors>
-        <Company>Alethic Solutions</Company>
         <Description>BoolExprNet is a .NET wrapper around the Boolexpr open source C++ library for symbolic Boolean algebra.</Description>
-        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/wasabii/BoolExprNet/</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/wasabii/BoolExprNet.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
 
     <ItemGroup>

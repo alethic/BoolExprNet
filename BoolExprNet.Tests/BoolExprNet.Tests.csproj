@@ -2,13 +2,12 @@
 
     <PropertyGroup>
         <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp2.1;net48;net47;net46</TargetFrameworks>
-        <LangVersion>8.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="5.10.3" />
-        <PackageReference Include="Microsoft.CodeCoverage" Version="16.7.1" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
+        <PackageReference Include="Microsoft.CodeCoverage" Version="16.8.3" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
         <PackageReference Include="MSTest.TestAdapter" Version="2.1.2" />
         <PackageReference Include="MSTest.TestFramework" Version="2.1.2" />
     </ItemGroup>

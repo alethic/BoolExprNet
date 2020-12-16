@@ -9,7 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boolexpr64", "boolexpr64\bo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{267A9447-3A09-455B-85A0-0DBAAA8246C4}"
 	ProjectSection(SolutionItems) = preProject
-		..\appveyor.yml = ..\appveyor.yml
+		appveyor.yml = appveyor.yml
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoolExprNet", "BoolExprNet\BoolExprNet.csproj", "{DAD5F83F-0A5D-4AC6-AB54-C74C6878645A}"
@@ -18,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoolExprNet.Console", "Bool
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoolExprNet.Tests", "BoolExprNet.Tests\BoolExprNet.Tests.csproj", "{C7E1BEB7-A7EB-4016-B557-DCBE8DB01942}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboolexpr32", "libboolexpr\libboolexpr.vcxproj", "{5405342D-7725-462D-8388-457D56068675}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libboolexpr", "libboolexpr\libboolexpr.vcxproj", "{5405342D-7725-462D-8388-457D56068675}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

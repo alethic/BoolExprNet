@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup>
+        <Company>Alethic Solutions</Company>
+        <Authors>Jerome Haltom</Authors>
+        <RepositoryUrl>https://github.com/alethic/BoolExprNet.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/alethic/BoolExprNet/</PackageProjectUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+</Project>
