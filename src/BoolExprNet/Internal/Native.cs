@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace BoolExprNet.Internal
@@ -14,11 +16,199 @@ namespace BoolExprNet.Internal
         public const string LIB_NAME = "boolexpr";
 
         /// <summary>
+        /// Native Win32 LoadLibrary method.
+        /// </summary>
+        /// <param name="dllToLoad"></param>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr LoadLibrary(string dllToLoad);
+
+        /// <summary>
+        /// Native Linux library loader method.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="flag"></param>
+        /// <returns></returns>
+        [DllImport("dl")]
+        static extern IntPtr dlopen(string path, int flag);
+
+        /// <summary>
         /// Initializes the static instance.
         /// </summary>
         static Native()
         {
+#if NET5_0 || NETCOREAPP3_0
+            NativeLibrary.SetDllImportResolver(typeof(Native).Assembly, DllImportResolver);
+#else
+            LegacyImportDll();
+#endif
+        }
 
+        /// <summary>
+        /// Invokes the appropriate LoadLibrary function based on the platform.
+        /// </summary>
+        /// <param name="dllToLoad"></param>
+        /// <returns></returns>
+        static IntPtr LoadLibraryFunc(string dllToLoad)
+        {
+#if NET46
+            return LoadLibrary(dllToLoad);
+#else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return LoadLibrary(dllToLoad);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return dlopen(dllToLoad, 2);
+#endif
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Preloads the native DLL for down-level platforms.
+        /// </summary>
+        static void LegacyImportDll()
+        {
+#if NET46
+            // attempt to load with default loader
+            var h = LoadLibrary(LIB_NAME);
+            if (h != IntPtr.Zero)
+                return;
+
+            // scan known paths
+            foreach (var path in GetLibraryPaths(LIB_NAME))
+            {
+                h = LoadLibrary(path);
+                if (h != IntPtr.Zero)
+                    return;
+            }
+#elif NETCOREAPP2_0
+            // attempt to load with default loader
+            var h = LoadLibraryFunc(LIB_NAME);
+            if (h != IntPtr.Zero)
+                return;
+
+            // scan known paths
+            foreach (var path in GetLibraryPaths(LIB_NAME))
+            {
+                h = LoadLibraryFunc(path);
+                if (h != IntPtr.Zero)
+                    return;
+            }
+#endif
+        }
+
+#if NET5_0 || NETCOREAPP3_0
+
+        /// <summary>
+        /// Attempts to resolve the specified assembly when running on .NET Core 3 and above.
+        /// </summary>
+        /// <param name="libraryName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="searchPath"></param>
+        /// <returns></returns>
+        static IntPtr DllImportResolver(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            if (libraryName == LIB_NAME)
+            {
+                // attempt to load with default loader
+                if (NativeLibrary.TryLoad(libraryName, out var h) && h != IntPtr.Zero)
+                    return h;
+
+                // scan known paths
+                foreach (var path in GetLibraryPaths(libraryName))
+                    if (NativeLibrary.TryLoad(path, out h) && h != IntPtr.Zero)
+                        return h;
+            }
+
+            return IntPtr.Zero;
+        }
+
+#endif
+
+        /// <summary>
+        /// Gets the RID architecture.
+        /// </summary>
+        /// <returns></returns>
+        static string GetRuntimeIdentifierArch()
+        {
+            switch (Marshal.SizeOf<IntPtr>())
+            {
+                case 4:
+                    return "x86";
+                case 8:
+                    return "x64";
+                default:
+                    break;
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Gets the runtime identifiers of the current platform.
+        /// </summary>
+        /// <returns></returns>
+        static IEnumerable<string> GetRuntimeIdentifiers()
+        {
+            var arch = GetRuntimeIdentifierArch();
+
+#if NET46
+            yield return $"win-{arch}";
+#else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                yield return $"win-{arch}";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                yield return $"linux-{arch}";
+
+#if NET5_0 || NETCOREAPP3_0
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                yield return $"freebsd-{arch}";
+#endif
+#endif
+        }
+
+        /// <summary>
+        /// Gets the appropriate 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static string GetLibraryFileName(string name)
+        {
+#if NET46
+            return $"{name}.dll";
+#else
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                return $"{name}.dll";
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                return $"lib{name}.so";
+
+#if NET5_0 || NETCOREAPP3_0
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                return $"lib{name}.so";
+#endif
+#endif
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Gets some library paths to check.
+        /// </summary>
+        /// <returns></returns>
+        static IEnumerable<string> GetLibraryPaths(string name)
+        {
+            var self = Directory.GetParent(typeof(Native).Assembly.Location)?.FullName;
+            if (self == null)
+                yield break;
+
+            var file = GetLibraryFileName(name);
+
+            // search in runtime specific directories
+            foreach (var rid in GetRuntimeIdentifiers())
+                yield return Path.Combine(self, "runtimes", rid, "native", file);
         }
 
         #region Context
