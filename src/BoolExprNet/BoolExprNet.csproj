@@ -73,12 +73,11 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="GetCopyToOutputDirectoryItemsForLibProjectReferences" BeforeTargets="GetCopyToOutputDirectoryItems" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Target Name="GetCopyToOutputDirectoryItemsForLibProjectReferences" BeforeTargets="AssignTargetPaths" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
         <ItemGroup>
             <ContentWithTargetPath Include="@(LibProjectReferenceWithOutputPath)">
-                <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+                <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
                 <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
-                <AssetGroup>native</AssetGroup>
             </ContentWithTargetPath>
         </ItemGroup>
     </Target>
