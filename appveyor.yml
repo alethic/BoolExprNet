@@ -13,7 +13,7 @@ before_build:
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
   - ps: $env:PackageOutputPath="$env:APPVEYOR_BUILD_FOLDER\pkg"
-  - wsl sudo apt-get -y install g++ gdb make ninja-build rsync zip clang
+  - wsl sudo apt-get -y install make zip clang
   - cmake -S src\boolexpr32 -B src\boolexpr32 -G "Visual Studio 16 2019" -A Win32
   - cmake -S src\boolexpr64 -B src\boolexpr64 -G "Visual Studio 16 2019" -A x64
   - msbuild src\BoolExprNet.sln /t:Restore
