@@ -26,19 +26,19 @@
             <ProjectFile>..\boolexpr64\boolexpr64.vcxproj</ProjectFile>
             <Platform>x64</Platform>
             <Configuration>$(Configuration)</Configuration>
-            <OutputDir>runtimes\win-x64/native</OutputDir>
+            <OutputDir>runtimes\win-x64\native</OutputDir>
         </LibProjectReference>
         <LibProjectReference Include="boolexpr-linux-x86">
-            <ProjectFile>..\libboolexpr\libboolexpr.vcxproj</ProjectFile>
-            <Platform>x64</Platform>
-            <Configuration>$(Configuration)</Configuration>
-            <OutputDir>runtimes\linux-x64\native</OutputDir>
-        </LibProjectReference>
-        <LibProjectReference Include=".boolexpr-linux-x64">
             <ProjectFile>..\libboolexpr\libboolexpr.vcxproj</ProjectFile>
             <Platform>x86</Platform>
             <Configuration>$(Configuration)</Configuration>
             <OutputDir>runtimes\linux-x86\native</OutputDir>
+        </LibProjectReference>
+        <LibProjectReference Include=".boolexpr-linux-x64">
+            <ProjectFile>..\libboolexpr\libboolexpr.vcxproj</ProjectFile>
+            <Platform>x64</Platform>
+            <Configuration>$(Configuration)</Configuration>
+            <OutputDir>runtimes\linux-x64\native</OutputDir>
         </LibProjectReference>
     </ItemGroup>
 
@@ -59,44 +59,42 @@
     </ItemGroup>
 
     <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(CMakePath)\CMakeLists.txt')" Outputs="%(LibProjectReference.ProjectFile)">
-        <Exec WorkingDirectory="%(LibProjectReference.CMakePath)" Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform) ."  Condition=" '%(LibProjectReference.CMakePath)' != '' "/>
+        <Exec Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -S %(LibProjectReference.CMakePath) -B %(LibProjectReference.CMakePath) -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform)" Condition=" '%(LibProjectReference.CMakePath)' != '' " />
     </Target>
 
-    <Target Name="GetLibContent" BeforeTargets="GetCopyToOutputDirectoryItems" DependsOnTargets="GenLibProject" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Target Name="GetLibProjectReferences" DependsOnTargets="GenLibProject">
         <MSBuild Projects="@(LibProjectReference->'%(ProjectFile)')" Targets="GetTargetPath" Properties="Platform=%(LibProjectReference.Platform);Configuration=%(LibProjectReference.Configuration)">
-            <Output TaskParameter="TargetOutputs" ItemName="LibTargets" />
+            <Output TaskParameter="TargetOutputs" ItemName="_LibProjectReferenceWithOutputPath" />
         </MSBuild>
         <ItemGroup>
-            <ContentWithTargetPath Include="@(LibTargets)">
+            <LibProjectReferenceWithOutputPath Include="@(_LibProjectReferenceWithOutputPath)">
+                <OutputPath>%(Identity)</OutputPath>
+            </LibProjectReferenceWithOutputPath>
+        </ItemGroup>
+    </Target>
+
+    <Target Name="GetCopyToOutputDirectoryItemsForLibProjectReferences" BeforeTargets="GetCopyToOutputDirectoryItems" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+        <ItemGroup>
+            <ContentWithTargetPath Include="@(LibProjectReferenceWithOutputPath)">
                 <CopyToOutputDirectory>Always</CopyToOutputDirectory>
                 <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
                 <AssetGroup>native</AssetGroup>
             </ContentWithTargetPath>
-            <ContentWithTargetPath Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')" Condition="Exists('@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')')">
-                <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-                <TargetPath>%(OutputDir)\%(Filename).pdb</TargetPath>
-            </ContentWithTargetPath>
         </ItemGroup>
     </Target>
 
-    <Target Name="BuildLib" BeforeTargets="Compile" DependsOnTargets="GetLibContent" Inputs="@(LibProjectReference-&gt;'%(ProjectFile)" Outputs="@(LibProjectReference->'%(Identity)\%(Configuration)\%(Name).dll')" Condition="'$(DesignTimeBuild)' != 'true'">
-        <Message Text="BuildLib: %(LibProjectReference.ProjectFile)" Importance="high" />
-        <MSBuild Projects="@(LibProjectReference->'%(ProjectFile)')" Targets="Build" Properties="Platform=%(LibProjectReference.Platform);Configuration=%(LibProjectReference.Configuration)">
-            <Output TaskParameter="TargetOutputs" ItemName="LibOutputs" />
+    <Target Name="BuildLibProjectReferences" BeforeTargets="Compile" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+        <MSBuild Projects="%(LibProjectReferenceWithOutputPath.ProjectFile)" Targets="Build" Properties="Platform=%(LibProjectReferenceWithOutputPath.Platform);Configuration=%(LibProjectReferenceWithOutputPath.Configuration)">
+            <Output TaskParameter="TargetOutputs" ItemName="LibProjectReferencesCompileOutput" />
         </MSBuild>
     </Target>
 
-    <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibContent">
+    <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibProjectReferences">
         <ItemGroup>
-            <_PackageFiles Include="@(LibTargets)">
+            <_PackageFiles Include="@(LibProjectReferenceWithOutputPath)">
                 <BuildAction>None</BuildAction>
                 <Pack>true</Pack>
                 <PackagePath>%(OutputDir)\%(Filename)%(Extension)</PackagePath>
-            </_PackageFiles>
-            <_PackageFiles Include="@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')" Condition="Exists('@(LibTargets->'%(Rootdir)%(Directory)%(Filename).pdb')')">
-                <BuildAction>None</BuildAction>
-                <Pack>true</Pack>
-                <PackagePath>%(OutputDir)\%(Filename).pdb</PackagePath>
             </_PackageFiles>
         </ItemGroup>
     </Target>

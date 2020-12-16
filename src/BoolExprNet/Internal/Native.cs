@@ -18,7 +18,7 @@ namespace BoolExprNet.Internal
         /// </summary>
         static Native()
         {
-            NativeLoader.Load(LIB_NAME);
+
         }
 
         #region Context
