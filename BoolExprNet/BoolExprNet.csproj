@@ -67,12 +67,15 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="GetCopyToOutputDirectoryItemsForLibProjectReferences" BeforeTargets="AssignTargetPaths" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+    <Target Name="GetItemsForLibProjectReferences" BeforeTargets="Build;AssignTargetPaths" DependsOnTargets="GetLibProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
         <ItemGroup>
-            <ContentWithTargetPath Include="@(LibProjectReferenceWithOutputPath)">
+            <None Include="@(LibProjectReferenceWithOutputPath->'%(OutputPath)')">
                 <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-                <TargetPath>%(OutputDir)\%(Filename)%(Extension)</TargetPath>
-            </ContentWithTargetPath>
+                <Link>%(LibProjectReferenceWithOutputPath.OutputDir)\%(LibProjectReferenceWithOutputPath.Filename)%(LibProjectReferenceWithOutputPath.Extension)</Link>
+                <Pack>true</Pack>
+                <PackagePath>%(LibProjectReferenceWithOutputPath.OutputDir)</PackagePath>
+                <PackageCopyToOutput>true</PackageCopyToOutput>
+            </None>
         </ItemGroup>
     </Target>
 
@@ -80,16 +83,6 @@
         <MSBuild Projects="%(LibProjectReferenceWithOutputPath.ProjectFile)" Targets="Build" Properties="Platform=%(LibProjectReferenceWithOutputPath.Platform);Configuration=%(LibProjectReferenceWithOutputPath.Configuration)">
             <Output TaskParameter="TargetOutputs" ItemName="LibProjectReferencesCompileOutput" />
         </MSBuild>
-    </Target>
-
-    <Target Name="__GetPackageFiles" AfterTargets="_GetPackageFiles" DependsOnTargets="GetLibProjectReferences">
-        <ItemGroup>
-            <_PackageFiles Include="@(LibProjectReferenceWithOutputPath)">
-                <BuildAction>None</BuildAction>
-                <Pack>true</Pack>
-                <PackagePath>%(LibProjectReferenceWithOutputPath.OutputDir)\%(Filename)%(Extension)</PackagePath>
-            </_PackageFiles>
-        </ItemGroup>
     </Target>
 
 </Project>
