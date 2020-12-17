@@ -52,7 +52,7 @@
         </PackageReference>
     </ItemGroup>
 
-    <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(CMakePath)\CMakeLists.txt')" Outputs="%(LibProjectReference.ProjectFile)">
+    <Target Name="GenLibProject" BeforeTargets="Build" Inputs="@(LibProjectReference->'%(CMakePath)\CMakeLists.txt')" Outputs="%(LibProjectReference.ProjectFile)" Condition="'$(DesignTimeBuild)' != 'true'">
         <Exec Command="&quot;$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe&quot; -S %(LibProjectReference.CMakePath) -B %(LibProjectReference.CMakePath) -G &quot;Visual Studio 16 2019&quot; -A %(LibProjectReference.Platform)" Condition=" '%(LibProjectReference.CMakePath)' != '' " />
     </Target>
 
