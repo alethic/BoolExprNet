@@ -117,84 +117,84 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\lib\boolexpr\src\argset.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\array.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\binop.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\boolexpr.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\bxcffi.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\compose.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\constants.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\context.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\count.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\dot.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\equivalent.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\flatten.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\invert.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\iter.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\latop.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\nnf.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\operators.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\posop.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\restrict.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\sat.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\simplify.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\tostr.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\src\tseytin.cc" />
-    <ClCompile Include="..\..\lib\boolexpr\third_party\glucosamine\src\core\Solver.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\argset.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\array.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\binop.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\boolexpr.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\bxcffi.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\compose.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\constants.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\context.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\count.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\dot.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\equivalent.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\flatten.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\invert.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\iter.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\latop.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\nnf.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\operators.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\posop.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\restrict.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\sat.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\simplify.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\tostr.cc" />
+    <ClCompile Include="..\lib\boolexpr\src\tseytin.cc" />
+    <ClCompile Include="..\lib\boolexpr\third_party\glucosamine\src\core\Solver.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\lib\boolexpr\include\boolexpr\boolexpr.h" />
-    <ClInclude Include="..\..\lib\boolexpr\src\argset.h" />
-    <ClInclude Include="..\..\lib\boolexpr\src\bxcffi.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\core\Solver.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\core\SolverTypes.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Alg.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Alloc.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\BoundedQueue.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Heap.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Map.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Sort.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\Vec.h" />
-    <ClInclude Include="..\..\lib\boolexpr\third_party\glucosamine\src\mtl\XAlloc.h" />
+    <ClInclude Include="..\lib\boolexpr\include\boolexpr\boolexpr.h" />
+    <ClInclude Include="..\lib\boolexpr\src\argset.h" />
+    <ClInclude Include="..\lib\boolexpr\src\bxcffi.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\core\Solver.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\core\SolverTypes.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Alg.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Alloc.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\BoundedQueue.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Heap.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Map.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Sort.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\Vec.h" />
+    <ClInclude Include="..\lib\boolexpr\third_party\glucosamine\src\mtl\XAlloc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
