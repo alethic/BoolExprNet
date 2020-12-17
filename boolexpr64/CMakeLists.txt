@@ -3,7 +3,7 @@ set(PLATFORM_SUFFIX 64)
 
 project(boolexpr${PLATFORM_SUFFIX})
 
-set(BOOLEXPR_DIR ${PROJECT_SOURCE_DIR}/../../lib/boolexpr)
+set(BOOLEXPR_DIR ${PROJECT_SOURCE_DIR}/../lib/boolexpr)
 set(CMAKE_MODULE_PATH BOOLEXPR_DIR/cmake)
 set(VERSION 2.4)
 set(BOOST_VERSION 1.54.0)
