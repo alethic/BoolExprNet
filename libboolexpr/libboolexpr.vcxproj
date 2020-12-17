@@ -142,17 +142,17 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\lib\boolexpr\include;..\lib\boolexpr\third_party\boost-1.54.0;..\..\lib\boolexpr\third_party\glucosamine\src;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
