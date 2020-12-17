@@ -87,7 +87,7 @@
             <_PackageFiles Include="@(LibProjectReferenceWithOutputPath)">
                 <BuildAction>None</BuildAction>
                 <Pack>true</Pack>
-                <PackagePath>%(OutputDir)\%(Filename)%(Extension)</PackagePath>
+                <PackagePath>%(LibProjectReferenceWithOutputPath.OutputDir)\%(Filename)%(Extension)</PackagePath>
             </_PackageFiles>
         </ItemGroup>
     </Target>
