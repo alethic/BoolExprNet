@@ -16,7 +16,7 @@ before_build:
   - wsl sudo apt-get -y install make zip clang
   - cmake -S boolexpr32 -B boolexpr32 -G "Visual Studio 16 2019" -A Win32
   - cmake -S boolexpr64 -B boolexpr64 -G "Visual Studio 16 2019" -A x64
-  - msbuild src\BoolExprNet.sln /t:Restore
+  - msbuild BoolExprNet.sln /t:Restore
   
 build:
   project: BoolExprNet.sln
