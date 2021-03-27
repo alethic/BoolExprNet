@@ -8,8 +8,23 @@ using BoolExprNet.Internal;
 namespace BoolExprNet
 {
 
+    /// <summary>
+    /// Base expression class.
+    /// </summary>
     public abstract class Expression : ManagedRef
     {
+
+        #region Known
+
+        public static ZeroLiteral Zero = new ZeroLiteral(Native.boolexpr_zero());
+
+        public static OneLiteral One = new OneLiteral(Native.boolexpr_one());
+
+        public static Logical Logical = new Logical(Native.boolexpr_logical());
+
+        public static Illogical Illogical = new Illogical(Native.boolexpr_illogical());
+
+        #endregion
 
         static readonly Dictionary<Kind, Expression> KIND2CONST = new Dictionary<Kind, Expression>()
         {
@@ -40,18 +55,6 @@ namespace BoolExprNet
             [Kind.NotIfThenElse] = cbx => new NotIfThenElse(cbx),
             [Kind.IfThenElse] = cbx => new IfThenElse(cbx),
         };
-
-        #region Known
-
-        public static ZeroLiteral Zero = new ZeroLiteral(Native.boolexpr_zero());
-
-        public static OneLiteral One = new OneLiteral(Native.boolexpr_one());
-
-        public static Logical Logical = new Logical(Native.boolexpr_logical());
-
-        public static Illogical Illogical = new Illogical(Native.boolexpr_illogical());
-
-        #endregion
 
         #region Operators
 
