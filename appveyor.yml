@@ -7,12 +7,14 @@ install:
   - choco install gitversion.portable -y
 
 before_build:
+  - ps: $env:IGNORE_NORMALISATION_GIT_HEAD_MOVE=1
   - ps: gitversion /l console /output buildserver
   - ps: $env:PackageVersion=$env:GitVersion_NuGetVersion
   - ps: $env:AssemblyVersion=$env:GitVersion_AssemblySemVer
   - ps: $env:FileVersion=$env:GitVersion_MajorMinorPatch.0
   - ps: $env:InformationalVersion=$env:GitVersion_InformationalVersion
   - ps: $env:PackageOutputPath="$env:APPVEYOR_BUILD_FOLDER\pkg"
+  - wsl sudo apt-get update
   - wsl sudo apt-get -y install make zip clang
   - cmake -S boolexpr32 -B boolexpr32 -G "Visual Studio 16 2019" -A Win32
   - cmake -S boolexpr64 -B boolexpr64 -G "Visual Studio 16 2019" -A x64
